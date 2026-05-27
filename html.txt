@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>نتيجة الطلاب</title>
+
+<style>
+
+body{
+    margin:0;
+    padding:0;
+    font-family:Tahoma;
+    background:#0d3b66;
+}
+
+.container{
+    width:90%;
+    max-width:400px;
+    background:white;
+    margin:40px auto;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 0 20px rgba(0,0,0,0.3);
+}
+
+.logo{
+    width:140px;
+    margin-bottom:15px;
+}
+
+h2{
+    color:#0d3b66;
+    margin-bottom:25px;
+}
+
+input{
+    width:90%;
+    padding:14px;
+    font-size:18px;
+    border:1px solid #ccc;
+    border-radius:10px;
+    margin-bottom:15px;
+}
+
+button{
+    width:95%;
+    padding:14px;
+    font-size:18px;
+    background:#0d3b66;
+    color:white;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#145da0;
+}
+
+#result{
+    margin-top:25px;
+    text-align:right;
+    font-size:18px;
+}
+
+.success{
+    color:green;
+    font-weight:bold;
+}
+
+.fail{
+    color:red;
+    font-weight:bold;
+}
+
+.footer{
+    margin-top:20px;
+    color:#666;
+    font-size:14px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<img src="https://postimg.cc/187LDHVF" class="logo">
+
+<h2>
+مدرسة الشهيد اسلام زاهى الإعدادية م بنين
+</h2>
+
+<input type="number" id="seat" placeholder="أدخل رقم الجلوس">
+
+<button onclick="searchStudent()">
+استعلام
+</button>
+
+<div id="result"></div>
+
+<div class="footer">
+مع أطيب التمنيات بالنجاح والتفوق
+</div>
+
+</div>
+
+<script>
+
+function searchStudent(){
+
+let seat = document.getElementById("seat").value;
+
+fetch("https://script.google.com/macros/s/AKfycbwmOs37xgi1pCnlCvBorlotD_bNsXpBdJXAa9xfCk9XVVx9sFDeVK9C-hnpJ5cW9C4/exec?seat=" + seat)
+
+.then(response => response.json())
+
+.then(data => {
+
+if(data.found){
+
+let statusClass =
+data.status.includes("ناج") ?
+"success" : "fail";
+
+document.getElementById("result").innerHTML = `
+
+<p><b>اسم الطالب:</b> ${data.name}</p>
+
+<p><b>المجموع:</b> ${data.total}</p>
+
+<p class="${statusClass}">
+<b>الحالة:</b> ${data.status}
+</p>
+
+`;
+
+}else{
+
+document.getElementById("result").innerHTML =
+"<p style='color:red'>رقم الجلوس غير موجود</p>";
+
+}
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
